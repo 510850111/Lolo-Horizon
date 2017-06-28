@@ -1,7 +1,5 @@
-# Lolo-Horizon
+﻿# Lolo-Horizon
 洛洛地平线
-
-# ---[策划]---:
 
 #   玩家
         跑动动画
