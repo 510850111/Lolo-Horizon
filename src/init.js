@@ -1,17 +1,19 @@
 //这里面只用于laya引擎初始化和图片加载功能 其他不管 
-
+//定义背景的大小
+var BG_WIDTH = 852;
+var BG_HEIGHT = 450;
 //laya初始化
-Laya.init(852, 480, Laya.WebGL);
+Laya.init(BG_WIDTH, BG_HEIGHT, Laya.WebGL);
 //FPS
 Laya.Stat.show(0, 0);
 //设置适配模式
-Laya.stage.scaleMode = "exactfit";
+// Laya.stage.scaleMode = "exactfit";
 //设置居中对齐
 Laya.stage.alignH = "center";
 //设置横屏
 Laya.stage.screenMode = "horizontal";
 
-Laya.loader.load("res/BackGround.jpg", laya.utils.Handler.create(this, onLoaded), laya.utils.Handler.create(this, onLoading, null, false));
+Laya.loader.load(["res/BackGround.png","res/cat_sleep.png","res/tree0.png"], laya.utils.Handler.create(this, onLoaded), laya.utils.Handler.create(this, onLoading, null, false));
 
 
 //加载进度

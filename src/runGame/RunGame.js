@@ -16,8 +16,9 @@
 
     //初始化
     _proto.init = function () {
-        console.log("RunGame进行初始化");
-        
+        console.log("RunGame进行初始化");    
+        var bg = new BackGround();
+        this.addChild(bg);
     }
 
 })();
