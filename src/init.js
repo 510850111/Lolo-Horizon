@@ -13,7 +13,12 @@ Laya.stage.alignH = "center";
 //设置横屏
 Laya.stage.screenMode = "horizontal";
 
-Laya.loader.load(["res/BackGround.png","res/cat_sleep.png","res/tree0.png"], laya.utils.Handler.create(this, onLoaded), laya.utils.Handler.create(this, onLoading, null, false));
+Laya.loader.load(
+    ["res/BackGround.png",  
+        "res/cat_sleep.png",
+        "res/tree0.png",
+        "res/floor.png"
+    ], laya.utils.Handler.create(this, onLoaded), laya.utils.Handler.create(this, onLoading, null, false));
 
 
 //加载进度
