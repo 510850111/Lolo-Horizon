@@ -74,7 +74,6 @@ var BG_HEIGHT = 450;
         }
         //树木移动
         if (this.tree.x + this.x <= -BG_WIDTH) {
-            console.log("this.tree.x = " + this.tree.x);
             this.tree.x += BG_WIDTH * 2;
         }
     }

@@ -4,7 +4,9 @@
      * 游戏入口
      */
     function RunGame() {
+
         RunGame.__super.call(this);
+
         this.init();
     }
 
@@ -16,9 +18,17 @@
 
     //初始化
     _proto.init = function () {
+
         console.log("RunGame进行初始化");    
+
         var bg = new BackGround();
+
         this.addChild(bg);
+
+        //添加地板集合
+        var mapFloor = new MapFloor();
+        
+        this.addChild(mapFloor);
     }
 
 })();
