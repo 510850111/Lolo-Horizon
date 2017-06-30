@@ -7,18 +7,33 @@ Laya.init(BG_WIDTH, BG_HEIGHT, Laya.WebGL);
 //FPS
 Laya.Stat.show(0, 0);
 //设置适配模式
-// Laya.stage.scaleMode = "exactfit";
+Laya.stage.scaleMode = "exactfit";
 //设置居中对齐
 Laya.stage.alignH = "center";
 //设置横屏
 Laya.stage.screenMode = "horizontal";
+//设置分辨率
+Laya.stage.scaleMode = "showall";
 
-Laya.loader.load(
-    ["res/BackGround.png",  
-        "res/cat_sleep.png",
+//加载单个资源
+var asset = [];
+asset.push({
+    url: [
+        "res/BackGround.png",
         "res/tree0.png",
         "res/floor.png"
-    ], laya.utils.Handler.create(this, onLoaded), laya.utils.Handler.create(this, onLoading, null, false));
+    ],
+    type: Laya.Loader.IMAGE
+});
+
+//加载图集资源
+asset.push({
+    url: "res/player.json",
+    type: Laya.Loader.ATLAS
+});
+
+//加载资源
+Laya.loader.load(asset, laya.utils.Handler.create(this, onLoaded), laya.utils.Handler.create(this, onLoading, null, false));
 
 
 //加载进度

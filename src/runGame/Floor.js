@@ -1,7 +1,7 @@
 //定义背景的大小
 var BG_WIDTH = 852;
 var BG_HEIGHT = 450;
-//地板高度
+//地板大小
 var FLOOR_HEIGHT = 84;
 var FLOOR_WIDTH = 960;
 

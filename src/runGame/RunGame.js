@@ -5,6 +5,10 @@
      */
     function RunGame() {
 
+        this.bg = null;
+        this.mapFloor = null;
+        this.player = null;
+        
         RunGame.__super.call(this);
 
         this.init();
@@ -18,17 +22,18 @@
 
     //初始化
     _proto.init = function () {
+        //添加背景
+        this.bg = new BackGround();
+        this.addChild(this.bg);
 
-        console.log("RunGame进行初始化");    
+        //添加地板
+        this.mapFloor = new MapFloor();
+        this.addChild(this.mapFloor);
 
-        var bg = new BackGround();
+        //添加主角
+        this.player = new Player();
+        this.addChild(this.player);
 
-        this.addChild(bg);
-
-        //添加地板集合
-        var mapFloor = new MapFloor();
-        
-        this.addChild(mapFloor);
     }
 
 })();
