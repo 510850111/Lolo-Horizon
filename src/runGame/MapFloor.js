@@ -19,8 +19,9 @@
 
     _proto.init = function () {
 
-
-        this.addFloor();
+        var floor = this.addFloor();
+        //避免玩家最开始没有地板可以踩
+        floor.x = 0;
         //创建一个帧循环函数
         Laya.timer.frameLoop(1, this, this.onLoop);
 
@@ -51,6 +52,7 @@
         floor.once(Floor.OUT_COMPLETE, this, this.getFloor);
         floor.once(Floor.OUT_DIE, this, this.delFloor);
         this.addChild(floor);
+        return floor;
     }
 
     _proto.getFloor = function (floor) {

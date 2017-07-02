@@ -71,10 +71,9 @@ var FLOOR_WIDTH = 960;
 
         //让地板的速度和移动比背景快一点
         this.x -= 3.2;
-
         //判断是否出了边界 如果出了 就通知生成新的floor 这里增加一个变量来判断当前是否已经通知外部了
         if (!this.isOutComplete && (this.x + BG_WIDTH) < FLOOR_WIDTH) {
-            
+
             this.isOutComplete = true;
 
             this.event(Floor.OUT_COMPLETE, this);
@@ -91,9 +90,40 @@ var FLOOR_WIDTH = 960;
 
     }
 
+    /**
+     * 允许在地板上添加物品
+     */
     _proto.addItem = function () {
-        /**
-         * 允许在地板上添加物品
+
+    }
+
+    /**
+     * 获取当前当前地板上的所有物品
+     */
+    _proto.getItem = function () {
+
+    }
+
+    /**
+     * 碰撞检测
+     * @param x 
+     * @param y
+     * @param playerStatus:"up" ? "down"
+     */
+    _proto.checkHit = function (x, y, playerStatus) {
+        /*
+            玩家在上方:
+                玩家的Y轴 < (地板Y+FLOOR_HEIGHT)
+                玩家Y > 地板Y
+
+            玩家在下方:
+                玩家的Y轴 > (地板Y+FLOOR_HEIGHT)
+                玩家Y < 地板Y
          */
+        if (y > this.y && y < (this.y + FLOOR_HEIGHT) && playerStatus == "up") { return true; }
+        else if (y < this.y && y > (this.y + FLOOR_HEIGHT) && playerStatus == "down") { return true; }
+        else { return false; }
+
+
     }
 })();

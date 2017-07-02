@@ -17,6 +17,21 @@ var PLAYER_HEIGHT = 96;
         this.action = null;
         //玩家
         this.body = null;
+        //玩家状态 "up" ? "down"
+        this.status = "up";
+
+        //下落变量
+        this.vy = 0;
+        //下落速度
+        this.downSpeed = 2;
+        //最大下落值
+        this.maxVy = 32;
+        //是否停止下落
+        this.isStopDown = false;
+
+        //这里我们强制设置玩家的宽度和高度
+        this.width = 96;
+        this.height = 96;
 
         Player.__super.call(this);
         //初始化
@@ -58,9 +73,11 @@ var PLAYER_HEIGHT = 96;
 
             // this.body.x = PLAYER_WIDTH;
             //应该把主角放在地板上面
-            this.body.y = (BG_HEIGHT - FLOOR_HEIGHT) / 2 - PLAYER_HEIGHT + 30;
+            // this.body.y = (BG_HEIGHT - FLOOR_HEIGHT) / 2 - PLAYER_HEIGHT + 30;
 
-            this.body.interval = 100;
+            this.body.pivot(48, 60);
+
+            this.body.interval = 138;
 
             this.addChild(this.body);
         }
@@ -83,7 +100,19 @@ var PLAYER_HEIGHT = 96;
 
     _proto.onLoop = function () {
         this.body.x = BG_WIDTH / 10;
-        console.log("this.body.x=" + this.body.x);
+        if (!this.isStopDown) {//在最开始玩家开始下落
+            this.y += this.vy;
+            this.vy += this.downSpeed;
+            //控制下落最大值
+            if (this.vy >= this.maxVy) { this.vy = this.maxVy };
+            //如果掉落到屏幕外
+            if (this.y > BG_HEIGHT) { return; }
+        }else if(this.isStopDown){
+            
+        }else{
+
+        }
+
 
     }
     //开始跑
