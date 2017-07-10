@@ -19,7 +19,19 @@ asset.push({
         "res/BackGround.png",
         "res/tree0.png",
         "res/floor.png",
-        "res/cat_sleep.png"
+        "res/cat_sleep.png",
+        "res/bird/bird_1.png",
+        "res/bird/bird_2.png",
+        "res/bird/bird_3.png",
+        "res/bird/bird_4.png",
+        "res/item/item_1.png",
+        "res/item/item_2.png",
+        "res/item/item_3.png",
+        "res/item/item_4.png",
+        "res/hp/hp_bg.png",
+        "res/hp/hp_bar.png",
+        "res/hp/en_bar.png",
+        "res/effect.png"
     ],
     type: Laya.Loader.IMAGE
 });

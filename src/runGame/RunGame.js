@@ -9,6 +9,9 @@
         this.mapFloor = null;
         this.player = null;
 
+        this.hpEnergy = null;
+        this.speedEnergy = null;
+
         RunGame.__super.call(this);
 
         this.init();
@@ -29,6 +32,18 @@
         //添加地板
         this.mapFloor = new MapFloor();
         this.addChild(this.mapFloor);
+
+        //无敌能量条
+        this.Invincible = new EnergyBar(EnergyBar.TYPE_INVINCIBLE);
+        this.Invincible.y = 7;
+        this.addChild(this.Invincible);
+
+        //减速能量条
+        this.Deceleration = new EnergyBar(EnergyBar.TYPE_DECELERATION);
+        this.Deceleration.y = 7;
+        this.Deceleration.x = this.Invincible.width + 10;
+        this.addChild(this.Deceleration);
+
 
         //添加主角
         this.player = new Player();
@@ -65,13 +80,13 @@
     //鼠标按下事件
     _proto.onMouseDown = function () {
         //在下落过程中不允许翻转
-        if(!this.player.isOnFloor){return;}
+        if (!this.player.isOnFloor) { return; }
 
         this.player.flip();
         //不知道为何,在Player里面设置XY一直不成功,所以改在这里设置
         console.log("玩家状态:" + this.player.status + "  玩家Y轴位置:" + this.player.y);
         if (this.player.status == "up") { this.player.y = (BG_HEIGHT - FLOOR_HEIGHT) / 2 - PLAYER_HEIGHT + 30 }
-        else if (this.player.status == "down") { this.player.y = ( (BG_HEIGHT + FLOOR_HEIGHT) / 2)  + PLAYER_HEIGHT - 15 }
+        else if (this.player.status == "down") { this.player.y = ((BG_HEIGHT + FLOOR_HEIGHT) / 2) + PLAYER_HEIGHT - 15 }
     }
 
 })();
