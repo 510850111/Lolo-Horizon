@@ -1,10 +1,3 @@
-//定义背景的大小
-var BG_WIDTH = 852;
-var BG_HEIGHT = 450;
-//地板大小
-var FLOOR_HEIGHT = 84;
-var FLOOR_WIDTH = 960;
-
 (function () {
     /**
      * 地板类
@@ -30,7 +23,7 @@ var FLOOR_WIDTH = 960;
     Floor.OUT_DIE = "floor_out_die";
 
     //注册这个类
-    Laya.class(Floor, "Floor", laya.display.Sprite);
+    Laya.class(Floor, "Floor", Sprite);
 
     var _proto = Floor.prototype;
 
@@ -48,7 +41,7 @@ var FLOOR_WIDTH = 960;
         if (this.bg == null) {
             //贴图纹理
             this.bgTexture = Laya.loader.getRes("res/floor.png");
-            this.bg = new laya.display.Sprite();
+            this.bg = new Sprite();
             //清空绘制
             this.bg.graphics.clear();
 
@@ -61,7 +54,7 @@ var FLOOR_WIDTH = 960;
         // this.maxRight = BG_WIDTH - 32 * 2 - 32 * parseInt(10 * Math.random());
 
         //创建一个帧循环处理函数
-        Laya.timer.frameLoop(1, this, this.onLoop);
+        Laya.timer.frameLoop(FLOOR_FRAME_DELAY, this, this.onLoop);
     }
 
     _proto.onLoop = function () {
@@ -70,7 +63,7 @@ var FLOOR_WIDTH = 960;
          */
 
         //让地板的速度和移动比背景快一点
-        this.x -= 3.2;
+        this.x -= FLOOR_SPEED;
         //判断是否出了边界 如果出了 就通知生成新的floor 这里增加一个变量来判断当前是否已经通知外部了
         if (!this.isOutComplete && (this.x + BG_WIDTH) < FLOOR_WIDTH) {
 
@@ -110,7 +103,7 @@ var FLOOR_WIDTH = 960;
      * @param y
      * @param playerStatus:"up" ? "down"
      */
-    _proto.checkHit = function (x, y, playerStatus) {
+    _proto.checkHit = function (playerX, playerY, playerStatus) {
         /*
             玩家在上方:
                 玩家的Y轴 < (地板Y+FLOOR_HEIGHT)
@@ -120,8 +113,8 @@ var FLOOR_WIDTH = 960;
                 玩家的Y轴 > (地板Y+FLOOR_HEIGHT)
                 玩家Y < 地板Y
          */
-        if (y > this.y && y < (this.y + FLOOR_HEIGHT) && playerStatus == "up") { return true; }
-        else if (y < this.y && y > (this.y + FLOOR_HEIGHT) && playerStatus == "down") { return true; }
+        if (playerY > this.y && playerY < (this.y + FLOOR_HEIGHT) && playerStatus == "up") { return true; }
+        else if (playerY < this.y && playerY > (this.y + FLOOR_HEIGHT) && playerStatus == "down") { return true; }
         else { return false; }
 
 

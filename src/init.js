@@ -1,7 +1,4 @@
 //这里面只用于laya引擎初始化和图片加载功能 其他不管 
-//定义背景的大小
-var BG_WIDTH = 852;
-var BG_HEIGHT = 450;
 //laya初始化
 Laya.init(BG_WIDTH, BG_HEIGHT, Laya.WebGL);
 //FPS
@@ -34,7 +31,7 @@ asset.push({
 });
 
 //加载资源
-Laya.loader.load(asset, laya.utils.Handler.create(this, onLoaded), laya.utils.Handler.create(this, onLoading, null, false));
+Laya.loader.load(asset, Handler.create(this, onLoaded), Handler.create(this, onLoading, null, false));
 
 
 //加载进度

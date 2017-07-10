@@ -1,13 +1,3 @@
-//定义背景的大小
-var BG_WIDTH = 852;
-var BG_HEIGHT = 450;
-//地板大小
-var FLOOR_HEIGHT = 84;
-var FLOOR_WIDTH = 960;
-//人物大小
-var PLAYER_WIDTH = 96;
-var PLAYER_HEIGHT = 96;
-
 //游戏主文件,入口文件
 (function () {
     /**
@@ -25,7 +15,7 @@ var PLAYER_HEIGHT = 96;
     }
 
     //RunGame 是一个显示对象 继承此 Sprite 注册这个RunGame类
-    Laya.class(RunGame, "RunGame", laya.display.Sprite);
+    Laya.class(RunGame, "RunGame", Sprite);
 
     //定义RumGame的原型
     var _proto = RunGame.prototype;
@@ -52,7 +42,7 @@ var PLAYER_HEIGHT = 96;
     }
 
     _proto.onLoop = function () {
-        //判断玩家是否踩在地板上,已经踩在地板上就可以终止判断了
+        //判断玩家是否踩在了地板上,已经踩在地板上就可以终止判断了
         if (!this.player.isOnFloor) {
             //获取所有的地板
             for (var i = this.mapFloor.numChildren - 1; i > - 1; i--) {
@@ -73,9 +63,12 @@ var PLAYER_HEIGHT = 96;
     }
 
     //鼠标按下事件
-
     _proto.onMouseDown = function () {
+        //在下落过程中不允许翻转
+        if(!this.player.isOnFloor){return;}
+
         this.player.flip();
+        //不知道为何,在Player里面设置XY一直不成功,所以改在这里设置
         console.log("玩家状态:" + this.player.status + "  玩家Y轴位置:" + this.player.y);
         if (this.player.status == "up") { this.player.y = (BG_HEIGHT - FLOOR_HEIGHT) / 2 - PLAYER_HEIGHT + 30 }
         else if (this.player.status == "down") { this.player.y = ( (BG_HEIGHT + FLOOR_HEIGHT) / 2)  + PLAYER_HEIGHT - 15 }

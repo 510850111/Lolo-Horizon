@@ -1,13 +1,3 @@
-//定义背景的大小
-var BG_WIDTH = 852;
-var BG_HEIGHT = 450;
-//地板大小
-var FLOOR_HEIGHT = 84;
-var FLOOR_WIDTH = 960;
-//人物大小
-var PLAYER_WIDTH = 96;
-var PLAYER_HEIGHT = 96;
-
 (function () {
     /**
      * 玩家类
@@ -23,11 +13,11 @@ var PLAYER_HEIGHT = 96;
         this.isOnFloor = false;
 
         //下落变量
-        this.vy = 0;
+        this.vy = PLAYER_DOWN_VY;
         //下落速度
-        this.downSpeed = 2;
+        this.downSpeed = PLAYER_DOWN_SPEED;
         //最大下落值
-        this.maxVy = 32;
+        this.maxVy = PLAYER_DOWN_MAX_SPEED;
         //是否停止下落
         this.isStopDown = false;
 
@@ -49,7 +39,7 @@ var PLAYER_HEIGHT = 96;
     Player.DIE = "player_die";
 
     //注册
-    Laya.class(Player, "Player", laya.display.Sprite);
+    Laya.class(Player, "Player", Sprite);
 
     //图集是否缓存,避免一次请求一次加载的状况
     Player.cached = false;
@@ -62,22 +52,22 @@ var PLAYER_HEIGHT = 96;
         if (!Player.cached) {
 
             //跑动的动画
-            laya.display.Animation.createFrames(['res/player/chara_01.png', 'res/player/chara_02.png', 'res/player/chara_03.png', 'res/player/chara_04.png'], Player.RUN);
+            Animation.createFrames(['res/player/chara_01.png', 'res/player/chara_02.png', 'res/player/chara_03.png', 'res/player/chara_04.png'], Player.RUN);
             //飞行的动画
-            laya.display.Animation.createFrames(['res/player/chara_05.png', 'res/player/chara_06.png', 'res/player/chara_07.png', 'res/player/chara_08.png'], Player.FLY);
+            Animation.createFrames(['res/player/chara_05.png', 'res/player/chara_06.png', 'res/player/chara_07.png', 'res/player/chara_08.png'], Player.FLY);
             //图像缓存完毕
             Player.cached = true;
         }
 
         if (this.body == null) {
 
-            this.body = new laya.display.Animation();
+            this.body = new Animation();
 
             // this.body.x = PLAYER_WIDTH;
             //应该把主角放在地板上面
             // this.body.y = (BG_HEIGHT - FLOOR_HEIGHT) / 2 - PLAYER_HEIGHT + 30;
 
-            this.body.interval = 138;
+            this.body.interval = PLAYER_RUN_SPEED;
 
             this.addChild(this.body);
         }
@@ -86,7 +76,7 @@ var PLAYER_HEIGHT = 96;
         this.playAction(Player.RUN);
 
         //创建帧循环处理函数
-        Laya.timer.frameLoop(1, this, this.onLoop);
+        Laya.timer.frameLoop(PLAYER_FRAME_DELAY, this, this.onLoop);
     }
 
     _proto.playAction = function (action) {

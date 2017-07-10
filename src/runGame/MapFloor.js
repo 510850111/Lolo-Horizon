@@ -13,7 +13,7 @@
     }
 
     //注册MapFloor
-    Laya.class(MapFloor, "MapFloor", laya.display.Sprite);
+    Laya.class(MapFloor, "MapFloor", Sprite);
 
     var _proto = MapFloor.prototype;
 
@@ -23,7 +23,7 @@
         //避免玩家最开始没有地板可以踩
         floor.x = 0;
         //创建一个帧循环函数
-        Laya.timer.frameLoop(1, this, this.onLoop);
+        Laya.timer.frameLoop(MAP_FLOOR_FRAME_DELAY, this, this.onLoop);
 
     }
 
