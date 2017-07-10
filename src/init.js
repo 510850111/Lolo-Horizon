@@ -21,7 +21,8 @@ asset.push({
     url: [
         "res/BackGround.png",
         "res/tree0.png",
-        "res/floor.png"
+        "res/floor.png",
+        "res/cat_sleep.png"
     ],
     type: Laya.Loader.IMAGE
 });

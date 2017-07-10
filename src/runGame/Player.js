@@ -19,6 +19,8 @@ var PLAYER_HEIGHT = 96;
         this.body = null;
         //玩家状态 "up" ? "down"
         this.status = "up";
+        //是否已经踩在地板上了
+        this.isOnFloor = false;
 
         //下落变量
         this.vy = 0;
@@ -75,8 +77,6 @@ var PLAYER_HEIGHT = 96;
             //应该把主角放在地板上面
             // this.body.y = (BG_HEIGHT - FLOOR_HEIGHT) / 2 - PLAYER_HEIGHT + 30;
 
-            this.body.pivot(48, 60);
-
             this.body.interval = 138;
 
             this.addChild(this.body);
@@ -107,9 +107,9 @@ var PLAYER_HEIGHT = 96;
             if (this.vy >= this.maxVy) { this.vy = this.maxVy };
             //如果掉落到屏幕外
             if (this.y > BG_HEIGHT) { return; }
-        }else if(this.isStopDown){
-            
-        }else{
+        } else if (this.isStopDown) {
+
+        } else {
 
         }
 
@@ -123,6 +123,34 @@ var PLAYER_HEIGHT = 96;
     _proto.gotoFly = function () {
         this.playAction(Player.FLY);
     };
+    //翻转人物
+    _proto.flip = function () {
+        //如果玩家在上面,那么将玩家翻转到下面
+        if (this.status == "up") {
+            //设置玩家的当前状态
+            this.status = "down";
+            //水平倾斜角度，默认值为0。以角度为单位
+            this.body.skewX = 180;
+            //垂直倾斜角度，默认值为0。以角度为单位。
+            this.body.skewY = 180;
+            //镜像翻转
+            this.body.scaleX = -1;
+            //设置Y轴的位置
+            // this.body.y = (BG_HEIGHT/2) ;
+        }else if(this.status == "down"){
+            //设置玩家的当前状态
+            this.status = "up";
+            //水平倾斜角度，默认值为0。以角度为单位
+            this.body.skewX = 0;
+            //垂直倾斜角度，默认值为0。以角度为单位。
+            this.body.skewY = 0;
+            //镜像翻转
+            this.body.scaleX = 1;
+            //设置Y轴的位置
+            // this.body.y -= (BG_HEIGHT - FLOOR_HEIGHT) / 2 - PLAYER_HEIGHT + 30;
+        }
 
+
+    }
 
 })();

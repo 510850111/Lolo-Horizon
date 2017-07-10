@@ -13,6 +13,9 @@ var BG_HEIGHT = 450;
         this.bg2 = null;
         //树木
         this.tree = null;
+        //cat
+        this.cat = null;
+
 
         BackGround.__super.call(this);
         this.init();
@@ -28,6 +31,7 @@ var BG_HEIGHT = 450;
         var texture1 = Laya.loader.getRes("res/BackGround.png");
         var texture2 = Laya.loader.getRes("res/BackGround.png");
         var textureTree = Laya.loader.getRes("res/tree0.png");
+        var textureCat = Laya.loader.getRes("res/cat_sleep.png");
 
         //创建背景1
         this.bg1 = new laya.display.Sprite();
@@ -52,7 +56,16 @@ var BG_HEIGHT = 450;
 
         this.addChild(this.tree);
 
-        this.tree.pos(BG_WIDTH, 0);
+        this.tree.pos(BG_WIDTH, 64);
+
+        //绘制猫
+        this.cat = new laya.display.Sprite();
+
+        this.cat.graphics.drawTexture(textureCat,0,0,64,64);
+
+        this.addChild(this.cat);
+        
+        // this.cat.pos(BG_WIDTH / 2, 64);
 
         //创建一个帧循环处理函数，用于背景位置的更新，实现背景滚动效果。
         Laya.timer.frameLoop(1, this, this.onLoop)
@@ -75,6 +88,10 @@ var BG_HEIGHT = 450;
         //树木移动
         if (this.tree.x + this.x <= -BG_WIDTH) {
             this.tree.x += BG_WIDTH * 2;
+        }
+        //cat移动
+        if (this.cat.x + this.x <= -BG_WIDTH) {
+            this.cat.x += BG_WIDTH * 2;
         }
     }
 
