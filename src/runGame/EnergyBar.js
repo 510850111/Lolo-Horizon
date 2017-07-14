@@ -30,8 +30,8 @@
     var _proto = EnergyBar.prototype;
 
     _proto.init = function (type) {
-        this.width = ENERGY_BAR_WIDTH;
-        this.height = ENERGR_BAR_HEIGHT;
+        this.width = ENERGY_BG_BAR_WIDTH;
+        this.height = ENERGY_BG_BAR_HEIGHT;
         //能量/血条背景
         var textureEnergyBarBG = Laya.loader.getRes("res/hp/hp_bg.png");
         //这个会选择性加载能量条还是血条
@@ -54,8 +54,8 @@
         this.bar.y = ENERGY_BAR_Y;
 
         //绘制血条和能量条
-        this.bg.graphics.drawTexture(textureEnergyBarBG, 0, 0, ENERGY_BAR_WIDTH, ENERGR_BAR_HEIGHT);
-        this.bar.graphics.drawTexture(textureEnergyBarType, 0, 0, 155, 12);
+        this.bg.graphics.drawTexture(textureEnergyBarBG, 0, 0, ENERGY_BG_BAR_WIDTH, ENERGY_BG_BAR_HEIGHT);
+        this.bar.graphics.drawTexture(textureEnergyBarType, 0, 0, ENERGY_BAR_WIDTH, ENERGY_BAR_HEIGHT);
 
         this.addChild(this.bg);
         this.addChild(this.bar);

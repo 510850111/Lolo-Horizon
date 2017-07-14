@@ -7,9 +7,22 @@ var FLOOR_WIDTH = 960;
 //人物大小
 var PLAYER_WIDTH = 96;
 var PLAYER_HEIGHT = 96;
+//能量条背景大小
+var ENERGY_BG_BAR_WIDTH = 180;
+var ENERGY_BG_BAR_HEIGHT = 21;
 //能量条大小
-var ENERGY_BAR_WIDTH = 180;
-var ENERGR_BAR_HEIGHT = 21;
+var ENERGY_BAR_WIDTH = 155;
+var ENERGY_BAR_HEIGHT = 12;
+//物品-星星大小
+var ITEM_STAR_WIDTH = 32;
+var ITEM_STAR_HEIGHT = 32;
+//物品-减速道具大小
+var ITEM_DECELERATION_WIDTH = 40;
+var ITEM_DECELERATION_HEIGHT = 53;
+//物品-无敌道具大小
+var ITEM_INCINCIBLE_WIDTH = 40;
+var ITEM_INCINCIBLE_HEIGHT = 48;
+
 
 //背景移动速度
 var BG_SPEED = 3;
@@ -40,7 +53,7 @@ var MAP_FLOOR_FRAME_DELAY = 10;
 var ENERGY_BAR_MIN_VALUE = 0;
 //能量条最大值
 var ENERGY_BAR_MAX_VALUE = 100;
-//能量条位置
+//能量条背景位置
 var ENERGY_BAR_X = 15;
 var ENERGY_BAR_Y = 2;
 

@@ -84,7 +84,7 @@
 
         this.player.flip();
         //不知道为何,在Player里面设置XY一直不成功,所以改在这里设置
-        console.log("玩家状态:" + this.player.status + "  玩家Y轴位置:" + this.player.y);
+        // console.log("玩家状态:" + this.player.status + "  玩家Y轴位置:" + this.player.y);
         if (this.player.status == "up") { this.player.y = (BG_HEIGHT - FLOOR_HEIGHT) / 2 - PLAYER_HEIGHT + 30 }
         else if (this.player.status == "down") { this.player.y = ((BG_HEIGHT + FLOOR_HEIGHT) / 2) + PLAYER_HEIGHT - 15 }
     }
