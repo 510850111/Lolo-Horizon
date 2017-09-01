@@ -34,10 +34,11 @@
 
         //监听有没有地板要移除
         while (this.dieFloorList.lenght > 0) {
-
             var floor = this.dieFloorList.shift();
-
             floor.removeSelf();
+            //回收
+            Pool.recover("floor",floor)
+
         }
     }
 
@@ -46,7 +47,7 @@
          * 增加地板
          */
 
-        var floor = new Floor();
+        var floor = Pool.getItemByClass("floor",Floor)
 
         floor.init();
         floor.once(Floor.OUT_COMPLETE, this, this.getFloor);

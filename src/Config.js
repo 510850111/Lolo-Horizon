@@ -32,8 +32,8 @@ var BG_FRAME_DELAY = 1;
 //人物的奔跑速度设置是在地板移动速度那里.
 //人物帧处理间隔
 var PLAYER_FRAME_DELAY = 1;
-//人物奔跑频率
-var PLAYER_RUN_SPEED = 138;
+//人物奔跑频率,值越大看起来越慢
+var PLAYER_RUN_SPEED = 190;
 //人物下落初始变量
 var PLAYER_DOWN_VY = 0;
 //人物下落速度
@@ -61,4 +61,5 @@ var Sprite = laya.display.Sprite;
 var Handler = laya.utils.Handler;
 var Animation = laya.display.Animation;
 var SoundManager = laya.media.SoundManager;
+var Pool = laya.utils.Pool;
 

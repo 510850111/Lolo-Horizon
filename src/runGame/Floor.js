@@ -12,6 +12,10 @@
         this.maxRight = 0;
         //是否完全出屏幕
         this.isOutComplete = false;
+        //背景右边补丁
+        this.rightBg = null;
+        //当前地板上的物品的集合
+        this.itemList = [];
 
         Floor.__super.call(this);
     }
@@ -31,6 +35,8 @@
         /**
          * 初始化Floor
          */
+        //是否需要在地板上增加道具
+        var isNeedItem = true;
         //如果不开启autoSize 父容器的宽度和高度无法获取
         this.autoSize = true;
         //初始化的时候将坐标放到屏幕右边
@@ -52,7 +58,7 @@
 
         //这里是通过游戏宽度减去固定2个*32的宽度,再随机一个长度,可以让地板时间点的出现,更加随机性,这样做是为了以后要改的方便
         // this.maxRight = BG_WIDTH - 32 * 2 - 32 * parseInt(10 * Math.random());
-
+        if(isNeedItem){this.addItem();}
         //创建一个帧循环处理函数
         Laya.timer.frameLoop(FLOOR_FRAME_DELAY, this, this.onLoop);
     }
@@ -74,9 +80,11 @@
         } else if ((this.x + BG_WIDTH + FLOOR_WIDTH) < 0) {
             //判断整个floor是否不在屏幕里面了 如果不在了 移除当前floor
             Laya.timer.clear(this, this.onLoop);
-
+            //如果有物品先隐藏
+            for(var i = 0; i < this.itemList.length; i++){
+                // this.itemList[i].visible = false;
+            }
             this.visible = false;
-
             this.event(Floor.OUT_DIE, this);
 
         }
@@ -87,14 +95,62 @@
      * 允许在地板上添加物品
      */
     _proto.addItem = function () {
-
+        //创建一个随机数
+        var randomNumber = parseInt(Math.random() * 10);
+        //如果随机数小于五,不添加,因为会造成道具太多的问题
+        if(randomNumber < 1) return;
+        //需要添加的数量
+        var addNum = 0;
+        //计算道具的最大数量,现在强制道具的宽度都是32
+        var maxItemNum = Math.floor( FLOOR_WIDTH / 32);
+        console.log
+        //定制数量的规则
+        if(maxItemNum >= 5){
+            addNum = 5 + Math.floor((maxItemNum - 5) * Math.random());;
+        }else{
+            addNum = maxItemNum;
+        }
+        //计算居中的点
+        var sx = (this.width - addNum * 32) *0.5;
+        var arr = [];
+        var isHasSpecialItem = false;
+        for(var i = 0;i<addNum;i++){
+            //每隔两个创建一个,物品分开一点
+            if(i % 2 == 0){continue;}
+            randomNumber = Math.random();
+            //查询当前物品列表里面是否有，如果有的话，就从里面拿取
+            if(this.itemList.length > 0 ){
+                item = this.itemList.shift();//shift() 方法用于把数组的第一个元素从其中删除，并返回第一个元素的值。
+                item.visible = true;
+            }else{
+                //从对象池中获取item
+                var item = Pool.getItemByClass("Item",Item);
+            }
+            //是否有特殊物品,如果没有,就生成特殊物品
+            
+            if(randomNumber >= 0.9 ){
+                isHasSpecialItem = true;
+                item.init(Item.ITEM_TYPE_INCINCIBLE);//无敌
+            }else if(randomNumber >= 0.8 ){
+                isHasSpecialItem = true;
+                item.init(Item.ITEM_TYPE_DECELERATION);//减速
+            }else{
+                isHasSpecialItem = true;
+                item.init(Item.ITEM_TYPE_STAR);//星星,加分道具
+            }
+            item.x = sx + i * 32;
+            item.y = -30;
+            this.addChild(item);
+            arr.push(item);
+        }
+        this.itemList = [].concat(arr)
     }
 
     /**
      * 获取当前当前地板上的所有物品
      */
-    _proto.getItem = function () {
-
+    _proto.getAllItems = function () {
+        return this.itemList;
     }
 
     /**
@@ -116,7 +172,5 @@
         if (playerY > this.y && playerY < (this.y + FLOOR_HEIGHT) && playerStatus == "up") { return true; }
         else if (playerY < this.y && playerY > (this.y + FLOOR_HEIGHT) && playerStatus == "down") { return true; }
         else { return false; }
-
-
     }
 })();

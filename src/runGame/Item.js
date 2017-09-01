@@ -20,14 +20,14 @@
 
     /*类型分类*/
     //星星
-    Item.ITEM_TYPE_STAR = "item_type_star";
+    Item.ITEM_TYPE_STAR = "ITEM_TYPE_STAR";
     //减速
-    Item.ITEM_TYPE_DECELERATION = "item_type_deceleration";
+    Item.ITEM_TYPE_DECELERATION = "ITEM_TYPE_DECELERATION";
     //无敌
-    Item.ITEM_TYPE_INCINCIBLE = "item_type_invincible";
+    Item.ITEM_TYPE_INCINCIBLE = "ITEM_TYPE_INCINCIBLE";
 
     //注册这个类
-    Laya.class(Item, "Item", Sprite);
+    Laya.class(Item, "Item", laya.display.Sprite);
 
     //获取原型
     _proto = Item.prototype;
@@ -40,21 +40,25 @@
             this.decelerationTexure = Laya.loader.getRes("res/item/item_3.png");
             this.invincibleTexture = Laya.loader.getRes("res/item/item_4.png");
             this.icon = new Sprite();
-            this.addChild(this.icon);
         }
         this.icon.graphics.clear();
         switch (type) {
             case Item.ITEM_TYPE_STAR:
                 this.icon.graphics.drawTexture(this.starTexture,0,0,ITEM_STAR_WIDTH,ITEM_STAR_HEIGHT);
+                console.log(Item.ITEM_TYPE_STAR + " has been switched");
                 break;
             case Item.ITEM_TYPE_DECELERATION:
                 this.icon.graphics.drawTexture(this.decelerationTexure,0,0,ITEM_DECELERATION_WIDTH,ITEM_DECELERATION_HEIGHT);
+                console.log(Item.ITEM_TYPE_DECELERATION + " has been switched");
                 break;
             case Item.ITEM_TYPE_INCINCIBLE:
-                this.icon.graphics.drawTexture(this.icon.invincibleTexture,0,0,ITEM_INCINCIBLE_WIDTH,ITEM_INCINCIBLE_HEIGHT);
+                this.icon.graphics.drawTexture(this.invincibleTexture,0,0,ITEM_INCINCIBLE_WIDTH,ITEM_INCINCIBLE_HEIGHT);
+                console.log(Item.ITEM_TYPE_INCINCIBLE + " has been switched");
                 break;
             default:
+                alert("道具指令错误!");
                 break;
         }
+        this.addChild(this.icon);
     }
 })();
