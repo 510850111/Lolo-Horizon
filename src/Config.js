@@ -16,12 +16,17 @@ var ENERGY_BAR_HEIGHT = 12;
 //物品-星星大小
 var ITEM_STAR_WIDTH = 32;
 var ITEM_STAR_HEIGHT = 32;
+//物品-星星出现几率
+var ITEM_STAR_PROBABILITY = 0.1;
 //物品-减速道具大小
 var ITEM_DECELERATION_WIDTH = 40;
 var ITEM_DECELERATION_HEIGHT = 53;
+//物品-减速道具出现几率
+var ITEM_DECELERAYION_PROBABILITY = 0.9;
 //物品-无敌道具大小
 var ITEM_INCINCIBLE_WIDTH = 40;
 var ITEM_INCINCIBLE_HEIGHT = 48;
+var ITEM_INCINCIBLE_PROBABILITY = 0.98;
 
 
 //背景移动速度
@@ -57,9 +62,19 @@ var ENERGY_BAR_MAX_VALUE = 100;
 var ENERGY_BAR_X = 15;
 var ENERGY_BAR_Y = 2;
 
+//物品出现在地板上的间隔
+var ITEMNUM_ON_FLOOR = 2;
+
+//分数栏
+var SCORETEXT_COLOR = "#FFFFFF";//颜色
+var SCORETEXT_FONT_SIZE = 30;//字体大小
+var SCORETEXT_TEXT_DEFAULT = -1;//默认文字
+var SCORETEXT_ALIGN = "right";// "left"： 居左对齐显示。 "center"： 居中对齐显示。 "right"： 居右对齐显示。
+
+
 var Sprite = laya.display.Sprite;
 var Handler = laya.utils.Handler;
 var Animation = laya.display.Animation;
 var SoundManager = laya.media.SoundManager;
 var Pool = laya.utils.Pool;
-
+var Text = laya.display.Text;

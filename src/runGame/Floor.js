@@ -56,8 +56,6 @@
         //绘制地板
         this.bg.graphics.drawTexture(this.bgTexture, 0, 0)
 
-        //这里是通过游戏宽度减去固定2个*32的宽度,再随机一个长度,可以让地板时间点的出现,更加随机性,这样做是为了以后要改的方便
-        // this.maxRight = BG_WIDTH - 32 * 2 - 32 * parseInt(10 * Math.random());
         if(isNeedItem){this.addItem();}
         //创建一个帧循环处理函数
         Laya.timer.frameLoop(FLOOR_FRAME_DELAY, this, this.onLoop);
@@ -103,7 +101,6 @@
         var addNum = 0;
         //计算道具的最大数量,现在强制道具的宽度都是32
         var maxItemNum = Math.floor( FLOOR_WIDTH / 32);
-        console.log
         //定制数量的规则
         if(maxItemNum >= 5){
             addNum = 5 + Math.floor((maxItemNum - 5) * Math.random());;
@@ -111,12 +108,12 @@
             addNum = maxItemNum;
         }
         //计算居中的点
-        var sx = (this.width - addNum * 32) *0.5;
+        var sx = FLOOR_WIDTH / addNum;
         var arr = [];
         var isHasSpecialItem = false;
         for(var i = 0;i<addNum;i++){
             //每隔两个创建一个,物品分开一点
-            if(i % 2 == 0){continue;}
+            if(i % ITEMNUM_ON_FLOOR == 0){continue;}
             randomNumber = Math.random();
             //查询当前物品列表里面是否有，如果有的话，就从里面拿取
             if(this.itemList.length > 0 ){
@@ -128,15 +125,17 @@
             }
             //是否有特殊物品,如果没有,就生成特殊物品
             
-            if(randomNumber >= 0.9 ){
+            if(randomNumber >= ITEM_INCINCIBLE_PROBABILITY ){
                 isHasSpecialItem = true;
                 item.init(Item.ITEM_TYPE_INCINCIBLE);//无敌
-            }else if(randomNumber >= 0.8 ){
+            }else if(randomNumber >= ITEM_DECELERAYION_PROBABILITY ){
                 isHasSpecialItem = true;
                 item.init(Item.ITEM_TYPE_DECELERATION);//减速
-            }else{
+            }else if(randomNumber >= ITEM_STAR_PROBABILITY){
                 isHasSpecialItem = true;
                 item.init(Item.ITEM_TYPE_STAR);//星星,加分道具
+            }else{
+                
             }
             item.x = sx + i * 32;
             item.y = -30;

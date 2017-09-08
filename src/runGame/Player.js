@@ -102,9 +102,18 @@
         } else {
 
         }
-
-
     }
+
+    _proto.hitCheck = function(playerX,playerY,itemX,itemY,j){
+            console.log("px=" + playerX + " py=" + playerY + " ix=" + itemX + " iy=" + itemY + " j=" +j);
+            if(playerX >=  itemX){
+                return true;
+            }else{
+                return false;
+            }
+        
+    }
+
     //开始跑
     _proto.gotoRun = function () {
         this.playAction(Player.RUN);

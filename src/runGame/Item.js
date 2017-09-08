@@ -45,15 +45,12 @@
         switch (type) {
             case Item.ITEM_TYPE_STAR:
                 this.icon.graphics.drawTexture(this.starTexture,0,0,ITEM_STAR_WIDTH,ITEM_STAR_HEIGHT);
-                console.log(Item.ITEM_TYPE_STAR + " has been switched");
                 break;
             case Item.ITEM_TYPE_DECELERATION:
                 this.icon.graphics.drawTexture(this.decelerationTexure,0,0,ITEM_DECELERATION_WIDTH,ITEM_DECELERATION_HEIGHT);
-                console.log(Item.ITEM_TYPE_DECELERATION + " has been switched");
                 break;
             case Item.ITEM_TYPE_INCINCIBLE:
                 this.icon.graphics.drawTexture(this.invincibleTexture,0,0,ITEM_INCINCIBLE_WIDTH,ITEM_INCINCIBLE_HEIGHT);
-                console.log(Item.ITEM_TYPE_INCINCIBLE + " has been switched");
                 break;
             default:
                 alert("道具指令错误!");

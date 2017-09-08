@@ -44,6 +44,16 @@
         this.Deceleration.x = this.Invincible.width + 10;
         this.addChild(this.Deceleration);
 
+        //分数
+        this.scoreText = new Text();
+        this.scoreText.color = SCORETEXT_COLOR;
+        this.scoreText.fontSize = SCORETEXT_FONT_SIZE;
+        this.scoreText.text = SCORETEXT_TEXT_DEFAULT;
+        this.scoreText.width = BG_WIDTH;
+        this.scoreText.align = SCORETEXT_ALIGN;
+        this.scoreText.x = -10;
+        this.scoreText.y = 10;
+        this.addChild(this.scoreText);
 
         //添加主角
         this.player = new Player();
@@ -56,12 +66,12 @@
         Laya.timer.frameLoop(1, this, this.onLoop);
     }
 
-    _proto.onLoop = function () {
-        //判断玩家是否踩在了地板上,已经踩在地板上就可以终止判断了
-        if (!this.player.isOnFloor) {
-            //获取所有的地板
-            for (var i = this.mapFloor.numChildren - 1; i > - 1; i--) {
-                var floor = this.mapFloor.getChildAt(i);
+    _proto.onLoop = function () {       
+        //获取所有的地板
+        for (var i = this.mapFloor.numChildren - 1; i > - 1; i--) {
+            var floor = this.mapFloor.getChildAt(i);
+            //判断玩家是否踩在了地板上,已经踩在地板上就可以终止判断了
+            if (!this.player.isOnFloor) {
                 //检测主角是否踩在地板上
                 if (floor.checkHit(this.player.x, this.player.y, this.player.status)) {
                     //人物如果踩到地板了 就把人物的坐标设置到地板上面
@@ -74,7 +84,23 @@
                     } else if (this.player.status == "down") { }
                 }
             }
+            //检测是否碰到道具了
+            var itemList = floor.getAllItems();
+            for(var j = 0;j < itemList.length;j++){
+                var item = itemList[j];
+                //只有显示的物品才做碰撞检测
+                if(item.visible){
+                    //拿到物品的位置信息
+                    if(this.player.hitCheck(this.player.body.x,this.player.y,item.x + floor.x - PLAYER_WIDTH,item.y,j)){
+                        this.scoreText.text ++ ;
+                        item.visible = false;
+
+                        // alert("disVisible!")
+                    }
+                }
+            }
         }
+        
     }
 
     //鼠标按下事件
