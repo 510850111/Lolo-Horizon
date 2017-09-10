@@ -62,6 +62,7 @@
     }
 
     _proto.onLoop = function () {
+        if(IS_PAUSE || IS_OVER) {return};
         /**
          * 帧循环处理函数
          */
@@ -125,7 +126,7 @@
             }
             //是否有特殊物品,如果没有,就生成特殊物品
             
-            if(randomNumber >= ITEM_INCINCIBLE_PROBABILITY ){
+            if(randomNumber >= ITEM_INVINCIBLE_PROBABILITY ){
                 isHasSpecialItem = true;
                 item.init(Item.ITEM_TYPE_INCINCIBLE);//无敌
             }else if(randomNumber >= ITEM_DECELERAYION_PROBABILITY ){
@@ -138,7 +139,8 @@
                 
             }
             item.x = sx + i * 32;
-            item.y = -30;
+            item = item.randomItemPosition(item);//已经设置好了y值
+            
             this.addChild(item);
             arr.push(item);
         }

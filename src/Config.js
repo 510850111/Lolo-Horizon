@@ -21,13 +21,18 @@ var ITEM_STAR_PROBABILITY = 0.1;
 //物品-减速道具大小
 var ITEM_DECELERATION_WIDTH = 40;
 var ITEM_DECELERATION_HEIGHT = 53;
-//物品-减速道具出现几率
+//物品-减速道具[不出现]几率
 var ITEM_DECELERAYION_PROBABILITY = 0.9;
 //物品-无敌道具大小
-var ITEM_INCINCIBLE_WIDTH = 40;
-var ITEM_INCINCIBLE_HEIGHT = 48;
-var ITEM_INCINCIBLE_PROBABILITY = 0.98;
+var ITEM_INVINCIBLE_WIDTH = 40;
+var ITEM_INVINCIBLE_HEIGHT = 48;
+//物品-无敌道具[不出现]几率
+var ITEM_INVINCIBLE_PROBABILITY = 0.8;
 
+//无敌状态下能量条下降速度
+var ITEM_INVINCIBLE_DESCENT_SPEED = 0.15;
+//减速能量条下降速度
+var ITEM_DECELERATION_DESCENT_SPEED = 0.8;
 
 //背景移动速度
 var BG_SPEED = 3;
@@ -47,6 +52,7 @@ var PLAYER_DOWN_SPEED = 2;
 var PLAYER_DOWN_MAX_SPEED = 32;
 
 //地板移动速度
+var FLOOR_SPEED_DEFAULT = 3.2;
 var FLOOR_SPEED = 3.2;
 //地板的帧处理间隔
 var FLOOR_FRAME_DELAY = 1;
@@ -68,8 +74,12 @@ var ITEMNUM_ON_FLOOR = 2;
 //分数栏
 var SCORETEXT_COLOR = "#FFFFFF";//颜色
 var SCORETEXT_FONT_SIZE = 30;//字体大小
-var SCORETEXT_TEXT_DEFAULT = -1;//默认文字
+var SCORETEXT_TEXT_DEFAULT = 0;//默认文字
 var SCORETEXT_ALIGN = "right";// "left"： 居左对齐显示。 "center"： 居中对齐显示。 "right"： 居右对齐显示。
+
+//游戏相关状态
+var IS_PAUSE = false;
+var IS_OVER = false;
 
 
 var Sprite = laya.display.Sprite;
@@ -78,3 +88,4 @@ var Animation = laya.display.Animation;
 var SoundManager = laya.media.SoundManager;
 var Pool = laya.utils.Pool;
 var Text = laya.display.Text;
+var Tween = laya.utils.Tween;

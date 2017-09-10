@@ -12,6 +12,8 @@
         this.hpEnergy = null;
         this.speedEnergy = null;
 
+        this.score = 0;
+
         RunGame.__super.call(this);
 
         this.init();
@@ -56,7 +58,7 @@
         this.addChild(this.scoreText);
 
         //添加主角
-        this.player = new Player();
+        this.player = new Player(this.Invincible,this.Deceleration);
         this.addChild(this.player);
 
         //监听鼠标按下弹起事件
@@ -89,20 +91,38 @@
             for(var j = 0;j < itemList.length;j++){
                 var item = itemList[j];
                 //只有显示的物品才做碰撞检测
-                if(item.visible){
+                if(item.visible ){
                     //拿到物品的位置信息
-                    if(this.player.hitCheck(this.player.body.x,this.player.y,item.x + floor.x - PLAYER_WIDTH,item.y,j)){
-                        this.scoreText.text ++ ;
-                        item.visible = false;
+                    if(this.player.hitCheck(this.player.body.x,this.player.y,item.x + floor.x - PLAYER_WIDTH,item.y,item.directionStatus,item.type,this.player.status)){
+                        //物品有多个类型 分类型进行判断
+                        if(item.type == Item.ITEM_TYPE_DECELERATION){
+                            item.visible = false;
+                            this.player.decelerationEnergy.addEnergyValue(20);
+                            if(this.player.decelerationEnergy.value == 100){
+                                //减速
 
-                        // alert("disVisible!")
+
+                            }
+                        }else if(item.type == Item.ITEM_TYPE_INCINCIBLE){
+                            item.visible = false;
+                            this.player.invincibleEnergy.addEnergyValue(20);
+                            if(this.player.invincibleEnergy.value == 100){
+                                //无敌
+                                
+                                this.player.showEffect();}
+                            
+                        }else{
+                            this.scoreText.text ++ ;
+                            //星星物品播放动画
+                            item.TweenStar(item);
+                        }
+                        
                     }
                 }
             }
         }
         
     }
-
     //鼠标按下事件
     _proto.onMouseDown = function () {
         //在下落过程中不允许翻转
@@ -114,5 +134,4 @@
         if (this.player.status == "up") { this.player.y = (BG_HEIGHT - FLOOR_HEIGHT) / 2 - PLAYER_HEIGHT + 30 }
         else if (this.player.status == "down") { this.player.y = ((BG_HEIGHT + FLOOR_HEIGHT) / 2) + PLAYER_HEIGHT - 15 }
     }
-
 })();

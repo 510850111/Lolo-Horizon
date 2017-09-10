@@ -2,15 +2,23 @@
     /**
      * 玩家类
      */
-    function Player() {
+    function Player(decelerationEnergy, invincibleEnergy) {
+
+        //减速能量条的引用
+        this.decelerationEnergy = decelerationEnergy;
+        //无敌能量条的引用
+        this.invincibleEnergy = invincibleEnergy;
         //当前动作
         this.action = null;
         //玩家
         this.body = null;
         //玩家状态 "up" ? "down"
         this.status = "up";
+        //玩家跑动状态 "normal" ?  "deceleration" ? "invincible"
         //是否已经踩在地板上了
         this.isOnFloor = false;
+        //是否在特效中
+        this.isInEffect = false;
 
         //下落变量
         this.vy = PLAYER_DOWN_VY;
@@ -62,14 +70,33 @@
         if (this.body == null) {
 
             this.body = new Animation();
-
-            // this.body.x = PLAYER_WIDTH;
-            //应该把主角放在地板上面
-            // this.body.y = (BG_HEIGHT - FLOOR_HEIGHT) / 2 - PLAYER_HEIGHT + 30;
-
-            this.body.interval = PLAYER_RUN_SPEED;
-
+            this.body.interval = PLAYER_RUN_SPEED;        
             this.addChild(this.body);
+
+            //启动无敌状态的效果
+            var spiritEffectTexture = Laya.loader.getRes("res/spiritEffect.png");
+            this.spiritEffect = new Sprite();
+            this.spiritEffect.pivot(154 * 0.5, 190 * 0.5);
+            this.spiritEffect.visible = false;
+            this.spiritEffect.scale(5, 5);
+            this.spiritEffect.graphics.drawTexture(spiritEffectTexture, 0, 0, 154, 190);
+            this.addChild(this.spiritEffect);
+
+            //在无敌效果下玩家的残影1
+            this.bodyEffect1 = new Animation();
+            this.bodyEffect1.alpha = 0.6;
+            this.bodyEffect1.pivot(80,60);
+            this.bodyEffect1.interval = PLAYER_RUN_SPEED;
+            this.bodyEffect1.visible = false;
+            this.addChild(this.bodyEffect1);
+
+            //在无敌效果下玩家的残影2
+            this.bodyEffect2 = new Animation();
+            this.bodyEffect2.alpha = 0.3;
+            this.bodyEffect2.pivot(110,60);
+            this.bodyEffect2.interval = PLAYER_RUN_SPEED;
+            this.bodyEffect2.visible = true;
+            this.addChild(this.bodyEffect2);
         }
 
         //播放相应的动画
@@ -86,6 +113,8 @@
         this.action = action;
         //播放相应的动画
         this.body.play(0, true, this.action);
+        this.bodyEffect1.play(0, true, this.action);
+        this.bodyEffect2.play(0, true, this.action);
     }
 
     _proto.onLoop = function () {
@@ -102,16 +131,45 @@
         } else {
 
         }
+        //判断玩家是否在特效中
+        if(this.isInEffect){
+            //如果在特效中,慢慢的消耗能量,直到能量为0,就回到默认状态
+            this.invincibleEnergy.addEnergyValue(-ITEM_INVINCIBLE_DESCENT_SPEED);
+            if(this.invincibleEnergy.value <= 0){
+                this.hideEffect();
+            }
+        }
     }
 
-    _proto.hitCheck = function(playerX,playerY,itemX,itemY,j){
-            console.log("px=" + playerX + " py=" + playerY + " ix=" + itemX + " iy=" + itemY + " j=" +j);
-            if(playerX >=  itemX){
-                return true;
-            }else{
-                return false;
+    _proto.hitCheck = function(playerX,playerY,itemX,itemY,itemDirectionStatus,itemTpye,playerStatus){
+            //console.log("px=" + playerX + " py=" + playerY + " ix=" + itemX + " iy=" + itemY + " xxx=" +- (((BG_HEIGHT - FLOOR_HEIGHT) / 2) - playerY));
+            var itemWidth = 0;
+            var itemHeight = 0;
+            //根据传过来的道具类型来确定物品的大小
+            switch(itemTpye){
+                case Item.ITEM_TYPE_STAR:
+                    itemWidth = ITEM_STAR_WIDTH;
+                    itemHeight = ITEM_STAR_HEIGHT;
+                    break;
+                case Item.ITEM_TYPE_DECELERATION:
+                    itemWidth = ITEM_DECELERATION_WIDTH;
+                    itemHeight = ITEM_DECELERATION_HEIGHT;
+                    break;
+                case Item.ITEM_TYPE_INVINCIBLE:
+                    itemWidth = ITEM_INVINCIBLE_WIDTH;
+                    itemHeight = ITEM_INVINCIBLE_HEIGHT;
+                    break;
             }
-        
+            //判断碰撞要考虑前方后方和玩家转换方向后正好撞在道具上面
+            if(playerStatus == "up"){
+                if(((playerX - Math.abs(itemX) - itemWidth/2 ) >= 0 ) && (itemDirectionStatus == "up") && (playerX  < itemX + itemWidth + PLAYER_WIDTH/2)){
+                    return true;
+                }else{return false}
+            }else if(playerStatus == "down"){
+                if((((playerX - Math.abs(itemX) - itemWidth/2 ) >= 0 ) && (itemDirectionStatus == "down") && (playerX  < itemX + itemWidth + PLAYER_WIDTH/2))){
+                    return true;
+                }else{return false}
+            }
     }
 
     //开始跑
@@ -148,8 +206,36 @@
             //设置Y轴的位置
             // this.body.y -= (BG_HEIGHT - FLOOR_HEIGHT) / 2 - PLAYER_HEIGHT + 30;
         }
+    }
 
+    //是否处于特效中 
+    _proto.isInEffect = function(){return this.spiritEffect.visible}
 
+    //显示特效
+    _proto.showEffect = function(){ 
+        if(!(this.invincibleEnergy.value >= 80 && this.isInEffect)){IS_PAUSE = true;/*暂停游戏*/ }
+        this.isInEffect = true;
+        this.gotoFly();
+        FLOOR_SPEED = 10;
+        this.spiritEffect.visible = true;
+        Tween.to(this.spiritEffect, {scaleX : 0.1, scaleY : 0.1, rotation : 360}, 1000, null, Handler.create(this, this.spiritEffectTweenComplete));
+    }
+    //特效完成之后执行的函数
+    _proto.spiritEffectTweenComplete = function(){
+        this.spiritEffect.visible = false;
+        this.spiritEffect.scale(5, 5);
+        this.bodyEffect1.visible = true;
+        this.bodyEffect2.visible = true;
+        IS_PAUSE = false;       
+    }
+
+    //特效停止
+    _proto.hideEffect = function(){
+        this.bodyEffect1.visible = false;
+        this.bodyEffect2.visible = false;
+        FLOOR_SPEED = FLOOR_SPEED_DEFAULT;
+        this.isInEffect = false;
+        this.gotoRun();
     }
 
 })();

@@ -62,7 +62,6 @@
 
         this.addChild(this.cat);
         
-        // this.cat.pos(BG_WIDTH / 2, 64);
 
         //创建一个帧循环处理函数，用于背景位置的更新，实现背景滚动效果。
         Laya.timer.frameLoop(BG_FRAME_DELAY, this, this.onLoop)
@@ -70,6 +69,7 @@
     }
 
     _proto.onLoop = function () {
+        if(IS_PAUSE || IS_OVER){return;}
 
         //移动
         this.x -= BG_SPEED;
