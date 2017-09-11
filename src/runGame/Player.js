@@ -68,17 +68,12 @@
         }
 
         if (this.body == null) {
-
-            this.body = new Animation();
-            this.body.interval = PLAYER_RUN_SPEED;        
-            this.addChild(this.body);
-
             //启动无敌状态的效果
             var spiritEffectTexture = Laya.loader.getRes("res/spiritEffect.png");
             this.spiritEffect = new Sprite();
             this.spiritEffect.pivot(154 * 0.5, 190 * 0.5);
             this.spiritEffect.visible = false;
-            this.spiritEffect.scale(5, 5);
+            // this.spiritEffect.scale(5, 5);
             this.spiritEffect.graphics.drawTexture(spiritEffectTexture, 0, 0, 154, 190);
             this.addChild(this.spiritEffect);
 
@@ -87,7 +82,7 @@
             this.bodyEffect1.alpha = 0.6;
             this.bodyEffect1.pivot(80,60);
             this.bodyEffect1.interval = PLAYER_RUN_SPEED;
-            this.bodyEffect1.visible = false;
+            this.bodyEffect1.visible = true;
             this.addChild(this.bodyEffect1);
 
             //在无敌效果下玩家的残影2
@@ -97,6 +92,10 @@
             this.bodyEffect2.interval = PLAYER_RUN_SPEED;
             this.bodyEffect2.visible = true;
             this.addChild(this.bodyEffect2);
+
+            this.body = new Animation();
+            this.body.interval = PLAYER_RUN_SPEED;        
+            this.addChild(this.body);
         }
 
         //播放相应的动画
@@ -108,7 +107,7 @@
 
     _proto.playAction = function (action) {
         //如果是重复动作,则不执行
-        if (this.action == action) return;
+        if (this.action == action) {return;};
 
         this.action = action;
         //播放相应的动画

@@ -17,17 +17,23 @@ var ENERGY_BAR_HEIGHT = 12;
 var ITEM_STAR_WIDTH = 32;
 var ITEM_STAR_HEIGHT = 32;
 //物品-星星出现几率
-var ITEM_STAR_PROBABILITY = 0.1;
+var ITEM_STAR_PROBABILITY = 0.9;
 //物品-减速道具大小
 var ITEM_DECELERATION_WIDTH = 40;
 var ITEM_DECELERATION_HEIGHT = 53;
-//物品-减速道具[不出现]几率
-var ITEM_DECELERAYION_PROBABILITY = 0.9;
+//物品-减速道具出现几率
+var ITEM_DECELERAYION_PROBABILITY = 0.6;
 //物品-无敌道具大小
 var ITEM_INVINCIBLE_WIDTH = 40;
 var ITEM_INVINCIBLE_HEIGHT = 48;
-//物品-无敌道具[不出现]几率
-var ITEM_INVINCIBLE_PROBABILITY = 0.8;
+//物品-无敌道具出现几率
+var ITEM_INVINCIBLE_PROBABILITY = 0.5;
+
+//npc大小
+var NPC_BIRD_WIDTH = 96;
+var NPC_BIRD_HEIGHT = 96;
+//NPC出现几率
+var NPC_BIRD_PROBABLITY = 0.1;
 
 //无敌状态下能量条下降速度
 var ITEM_INVINCIBLE_DESCENT_SPEED = 0.15;
@@ -51,6 +57,9 @@ var PLAYER_DOWN_SPEED = 2;
 //人物最大下落值
 var PLAYER_DOWN_MAX_SPEED = 32;
 
+//Npc播放频率,值越大看起来越慢
+var NPC_BIRD_INTERVAL = 100;
+
 //地板移动速度
 var FLOOR_SPEED_DEFAULT = 3.2;
 var FLOOR_SPEED = 3.2;
@@ -70,6 +79,8 @@ var ENERGY_BAR_Y = 2;
 
 //物品出现在地板上的间隔
 var ITEMNUM_ON_FLOOR = 2;
+//NPC在地板上出现的间隔
+var NPC_BIRD_NUM_ON_FLOOR = 2;
 
 //分数栏
 var SCORETEXT_COLOR = "#FFFFFF";//颜色

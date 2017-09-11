@@ -16,6 +16,8 @@
         this.rightBg = null;
         //当前地板上的物品的集合
         this.itemList = [];
+        //当前地板上的Npc的集合
+        this.birdList = [];
 
         Floor.__super.call(this);
     }
@@ -57,6 +59,7 @@
         this.bg.graphics.drawTexture(this.bgTexture, 0, 0)
 
         if(isNeedItem){this.addItem();}
+        this.addBird();
         //创建一个帧循环处理函数
         Laya.timer.frameLoop(FLOOR_FRAME_DELAY, this, this.onLoop);
     }
@@ -124,15 +127,14 @@
                 //从对象池中获取item
                 var item = Pool.getItemByClass("Item",Item);
             }
-            //是否有特殊物品,如果没有,就生成特殊物品
             
-            if(randomNumber >= ITEM_INVINCIBLE_PROBABILITY ){
+            if(randomNumber >= 1-ITEM_INVINCIBLE_PROBABILITY  && randomNumber < ITEM_DECELERAYION_PROBABILITY){
                 isHasSpecialItem = true;
                 item.init(Item.ITEM_TYPE_INCINCIBLE);//无敌
-            }else if(randomNumber >= ITEM_DECELERAYION_PROBABILITY ){
+            }else if(randomNumber >= 1-ITEM_DECELERAYION_PROBABILITY){
                 isHasSpecialItem = true;
                 item.init(Item.ITEM_TYPE_DECELERATION);//减速
-            }else if(randomNumber >= ITEM_STAR_PROBABILITY){
+            }else if(randomNumber >= 1-ITEM_STAR_PROBABILITY){
                 isHasSpecialItem = true;
                 item.init(Item.ITEM_TYPE_STAR);//星星,加分道具
             }else{
@@ -153,6 +155,59 @@
     _proto.getAllItems = function () {
         return this.itemList;
     }
+
+    //放置npc
+    _proto.addBird = function(){
+        //创建一个随机数
+        var randomNumber = parseInt(Math.random() * 10);
+        //如果随机数小于五,不添加,因为会造成npc太多的问题
+        if(randomNumber < 1) return;
+        //需要添加的数量
+        var addNum = 0;
+        //计算道具的最大数量
+        var maxBirdNum = Math.floor( FLOOR_WIDTH / 128);
+        //定制数量的规则
+        if(maxBirdNum >= 5){
+            addNum = 5 + Math.floor((maxBirdNum - 5) * Math.random());;
+        }else{
+            addNum = maxBirdNum;
+        }
+        //计算居中的点
+        var sx = FLOOR_WIDTH / addNum;
+        var arr = [];
+        for(var i = 0;i<addNum;i++){
+            //每隔两个创建一个,物品分开一点...............................................
+            if(i % NPC_BIRD_NUM_ON_FLOOR == 0){continue;}
+            randomNumber = Math.random();
+            //查询当前物品列表里面是否有，如果有的话，就从里面拿取
+            if(this.birdList.length > 0 ){
+                bird = this.this.birdList.shift();//shift() 方法用于把数组的第一个元素从其中删除，并返回第一个元素的值。
+                bird.visible = true;
+            }else{
+                //从对象池中获取Npc
+                var bird = Pool.getItemByClass("Npc",Npc);
+            }
+            if(randomNumber >= 1 - NPC_BIRD_PROBABLITY){
+                console.log("randomNumber = " + randomNumber);
+                bird.init();
+            }
+            bird.x = sx + i * 128;
+            bird = bird.randomNpcPosition(bird);//已经设置好了y值
+            // console.log("bird.x="+bird.x  + "  bird.y=" + bird.x );....
+            
+            this.addChild(bird);
+            arr.push(bird);
+        }
+        this.birdList = [].concat(arr)
+    }
+
+    /**
+     * 获取当前当前地板上的所有物品
+     */
+    _proto.getAllNpcs = function () {
+        return this.birdList;
+    }
+
 
     /**
      * 碰撞检测
