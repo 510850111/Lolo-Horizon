@@ -161,7 +161,7 @@
         //创建一个随机数
         var randomNumber = parseInt(Math.random() * 10);
         //如果随机数小于五,不添加,因为会造成npc太多的问题
-        if(randomNumber < 1) return;
+        if(randomNumber < 5) return;
         //需要添加的数量
         var addNum = 0;
         //计算道具的最大数量

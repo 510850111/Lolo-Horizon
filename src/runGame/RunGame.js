@@ -106,7 +106,7 @@
                         }else if(item.type == Item.ITEM_TYPE_INCINCIBLE){
                             item.visible = false;
                             this.player.invincibleEnergy.addEnergyValue(20);
-                            if(this.player.invincibleEnergy.value == 100){
+                            if(this.player.invincibleEnergy.value == 100 && !this.player.isInEffect){
                                 //无敌
                                 
                                 this.player.showEffect();}

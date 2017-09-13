@@ -2,7 +2,7 @@
 //laya初始化
 Laya.init(BG_WIDTH, BG_HEIGHT, Laya.WebGL);
 //FPS
-Laya.Stat.show(0, 0);
+// Laya.Stat.show(0, 0);
 //设置适配模式
 Laya.stage.scaleMode = "exactfit";
 //设置居中对齐
@@ -31,7 +31,8 @@ asset.push({
         "res/hp/hp_bg.png",
         "res/hp/hp_bar.png",
         "res/hp/en_bar.png",
-        "res/effect.png"
+        "res/effect.png",
+        "res/particle/heart.png"
     ],
     type: Laya.Loader.IMAGE
 });

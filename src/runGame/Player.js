@@ -33,6 +33,8 @@
         this.width = 96;
         this.height = 96;
 
+        this.sp = null;
+
         Player.__super.call(this);
         //初始化
         this.init();
@@ -68,31 +70,6 @@
         }
 
         if (this.body == null) {
-            //启动无敌状态的效果
-            var spiritEffectTexture = Laya.loader.getRes("res/spiritEffect.png");
-            this.spiritEffect = new Sprite();
-            this.spiritEffect.pivot(154 * 0.5, 190 * 0.5);
-            this.spiritEffect.visible = false;
-            // this.spiritEffect.scale(5, 5);
-            this.spiritEffect.graphics.drawTexture(spiritEffectTexture, 0, 0, 154, 190);
-            this.addChild(this.spiritEffect);
-
-            //在无敌效果下玩家的残影1
-            this.bodyEffect1 = new Animation();
-            this.bodyEffect1.alpha = 0.6;
-            this.bodyEffect1.pivot(80,60);
-            this.bodyEffect1.interval = PLAYER_RUN_SPEED;
-            this.bodyEffect1.visible = true;
-            this.addChild(this.bodyEffect1);
-
-            //在无敌效果下玩家的残影2
-            this.bodyEffect2 = new Animation();
-            this.bodyEffect2.alpha = 0.3;
-            this.bodyEffect2.pivot(110,60);
-            this.bodyEffect2.interval = PLAYER_RUN_SPEED;
-            this.bodyEffect2.visible = true;
-            this.addChild(this.bodyEffect2);
-
             this.body = new Animation();
             this.body.interval = PLAYER_RUN_SPEED;        
             this.addChild(this.body);
@@ -112,8 +89,6 @@
         this.action = action;
         //播放相应的动画
         this.body.play(0, true, this.action);
-        this.bodyEffect1.play(0, true, this.action);
-        this.bodyEffect2.play(0, true, this.action);
     }
 
     _proto.onLoop = function () {
@@ -208,7 +183,7 @@
     }
 
     //是否处于特效中 
-    _proto.isInEffect = function(){return this.spiritEffect.visible}
+    _proto.isInEffect = false;
 
     //显示特效
     _proto.showEffect = function(){ 
@@ -216,22 +191,25 @@
         this.isInEffect = true;
         this.gotoFly();
         FLOOR_SPEED = 10;
-        this.spiritEffect.visible = true;
-        Tween.to(this.spiritEffect, {scaleX : 0.1, scaleY : 0.1, rotation : 360}, 1000, null, Handler.create(this, this.spiritEffectTweenComplete));
+        Laya.loader.load("res/particle/particle.part", Handler.create(this, this.Showparticle), null, Laya.Loader.JSON);
     }
-    //特效完成之后执行的函数
-    _proto.spiritEffectTweenComplete = function(){
-        this.spiritEffect.visible = false;
-        this.spiritEffect.scale(5, 5);
-        this.bodyEffect1.visible = true;
-        this.bodyEffect2.visible = true;
-        IS_PAUSE = false;       
+    _proto.Showparticle = function(settings){
+        this.sp = new Laya.Particle2D(settings);
+        // console.log(this.sp);
+        this.sp.x = this.body.x*1.5;
+        this.sp.y -= 20;
+		this.addChild(this.sp);
+        this.sp.emitter.start();
+        this.sp.emitter._emissionRate = 20;
+        this.sp.play();
+        IS_PAUSE = false;
     }
 
     //特效停止
     _proto.hideEffect = function(){
-        this.bodyEffect1.visible = false;
-        this.bodyEffect2.visible = false;
+        // this.sp.destroy();
+        this.sp.emitter.stop();
+        this.sp.emitter.clear();
         FLOOR_SPEED = FLOOR_SPEED_DEFAULT;
         this.isInEffect = false;
         this.gotoRun();

@@ -10,7 +10,8 @@
 			"useBuildInServer": true,
 			"sourceMaps": true,
 			"webRoot": "${workspaceRoot}",
-			"port": 9222
+			"port": 9222,
+			"fixedPort":false
 		},
 		{
 			"name": "chrome调试",
@@ -30,15 +31,8 @@
 			"webRoot": "${workspaceRoot}",
 			//假如谷歌调试报userDataDir不可用，请把谷歌安装路径取得管理员权限,或者更换${tmpdir}为其他可以读写的文件夹，也可以删除。
 			"userDataDir": "${tmpdir}",
-			"port":9222
-		},
-		{
-			"name": "Attach with sourcemaps",
-			"type": "chrome",
-			"request": "attach",
-			"port": 9222,
-			"sourceMaps": true,
-			"webRoot": "${workspaceRoot}"
+			"port":9222,
+			"fixedPort":false
 		}
 	]
 }
