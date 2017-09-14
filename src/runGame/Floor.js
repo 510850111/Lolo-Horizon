@@ -18,6 +18,8 @@
         this.itemList = [];
         //当前地板上的Npc的集合
         this.birdList = [];
+        //计时器,用于加快地板速度
+        this.timer = null;
 
         Floor.__super.call(this);
     }
@@ -72,6 +74,10 @@
 
         //让地板的速度和移动比背景快一点
         this.x -= FLOOR_SPEED;
+
+        //地板的速度不断是累加的,最大是FLOOR_SPEED_MAX
+        if(!IS_FLOOR_SPEED_MAX){this.moveFaster();}
+        
         //判断是否出了边界 如果出了 就通知生成新的floor 这里增加一个变量来判断当前是否已经通知外部了
         if (!this.isOutComplete && (this.x + BG_WIDTH) < FLOOR_WIDTH) {
 
@@ -128,7 +134,7 @@
                 var item = Pool.getItemByClass("Item",Item);
             }
             
-            if(randomNumber >= 1-ITEM_INVINCIBLE_PROBABILITY  && randomNumber < ITEM_DECELERAYION_PROBABILITY){
+            if(randomNumber >= 1-ITEM_INVINCIBLE_PROBABILITY ){
                 isHasSpecialItem = true;
                 item.init(Item.ITEM_TYPE_INCINCIBLE);//无敌
             }else if(randomNumber >= 1-ITEM_DECELERAYION_PROBABILITY){
@@ -176,7 +182,7 @@
         var sx = FLOOR_WIDTH / addNum;
         var arr = [];
         for(var i = 0;i<addNum;i++){
-            //每隔两个创建一个,物品分开一点...............................................
+            //每隔两个创建一个,物品分开一点
             if(i % NPC_BIRD_NUM_ON_FLOOR == 0){continue;}
             randomNumber = Math.random();
             //查询当前物品列表里面是否有，如果有的话，就从里面拿取
@@ -188,7 +194,7 @@
                 var bird = Pool.getItemByClass("Npc",Npc);
             }
             if(randomNumber >= 1 - NPC_BIRD_PROBABLITY){
-                console.log("randomNumber = " + randomNumber);
+                // console.log("randomNumber = " + randomNumber);
                 bird.init();
             }
             bird.x = sx + i * 128;
@@ -208,7 +214,25 @@
         return this.birdList;
     }
 
+    //加快地板移动速度
+    _proto.moveFaster = function(){
+        if(FLOOR_SPEED >= FLOOR_SPEED_MAX){
+            IS_FLOOR_SPEED_MAX = true;
+            return;
+        }
+        window.clearTimeout(this.timer);
+        FLOOR_SPEED += FLOOR_SPEED_FASTER_STEP;
+        this.timer = window.setTimeout(this.moveFaster,100);
+    }
 
+    //减小地板移动速度
+    _proto.moveLower = function(father){
+           FLOOR_SPEED = FLOOR_SPEED_DEFAULT;
+           IS_FLOOR_SPEED_MAX = false;
+           father.player.isInLowerSpeed  = false;
+           father.player.decelerationEnergy.updateEnergyValue(0);
+           return;
+    }
     /**
      * 碰撞检测
      * @param x 

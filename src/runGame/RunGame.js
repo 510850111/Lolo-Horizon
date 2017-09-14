@@ -100,10 +100,13 @@
                         if(item.type == Item.ITEM_TYPE_DECELERATION){
                             item.visible = false;
                             this.player.decelerationEnergy.addEnergyValue(20);
-                            if(this.player.decelerationEnergy.value == 100){
-                                //减速
-
-
+                            if(this.player.decelerationEnergy.value >= 100){
+                                if(!this.player.isInEffect){
+                                    //减速
+                                    this.player.decelerationEnergy.updateEnergyValue(100);
+                                    this.player.isInLowerSpeed  = true;
+                                    floor.moveLower(this);    
+                                }
                             }
                         }else if(item.type == Item.ITEM_TYPE_INCINCIBLE){
                             item.visible = false;

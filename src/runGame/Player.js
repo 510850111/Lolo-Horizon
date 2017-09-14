@@ -19,6 +19,8 @@
         this.isOnFloor = false;
         //是否在特效中
         this.isInEffect = false;
+        //是否在减速状态下
+        this.isInLowerSpeed = false;
 
         //下落变量
         this.vy = PLAYER_DOWN_VY;
@@ -111,6 +113,14 @@
             this.invincibleEnergy.addEnergyValue(-ITEM_INVINCIBLE_DESCENT_SPEED);
             if(this.invincibleEnergy.value <= 0){
                 this.hideEffect();
+            }
+        }
+        //判断是否在减速中
+        if(this.isInLowerSpeed){
+            //如果在减速中,慢慢的消耗能量,直到能量为0,就回到默认状态
+            this.decelerationEnergy.addEnergyValue(-ITEM_DECELERATION_DESCENT_SPEED);
+            if(this.decelerationEnergy.value <= 0){
+                this.decelerationEnergy.updateEnergyValue(0);
             }
         }
     }
@@ -210,8 +220,9 @@
         // this.sp.destroy();
         this.sp.emitter.stop();
         this.sp.emitter.clear();
+        IS_FLOOR_SPEED_MAX = false;
         FLOOR_SPEED = FLOOR_SPEED_DEFAULT;
-        this.isInEffect = false;
+        this.isInEffect = false;   
         this.gotoRun();
     }
 
