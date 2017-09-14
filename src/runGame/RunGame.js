@@ -14,6 +14,8 @@
 
         this.score = 0;
 
+        this.isFirstPlayGame = true;
+
         RunGame.__super.call(this);
 
         this.init();
@@ -125,6 +127,13 @@
     }
     //鼠标按下事件
     _proto.onMouseDown = function () {
+        if(this.isFirstPlayGame){
+            //移除gameInfo
+            Laya.stage.removeChild(gameInfo);
+            //移除之后游戏开始
+            IS_PAUSE = false;
+            isFirstPlayGame = false;
+        }
         //在下落过程中不允许翻转
         if (!this.player.isOnFloor) { return; }
 

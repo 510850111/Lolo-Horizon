@@ -49,7 +49,8 @@ var BG_FRAME_DELAY = 1;
 //人物帧处理间隔
 var PLAYER_FRAME_DELAY = 1;
 //人物奔跑频率,值越大看起来越慢
-var PLAYER_RUN_SPEED = 190;
+var PLAYER_RUN_SPEED_DEFAULT = 190;
+var PLAYER_RUN_SPEED = PLAYER_RUN_SPEED_DEFAULT;
 //人物下落初始变量
 var PLAYER_DOWN_VY = 0;
 //人物下落速度
