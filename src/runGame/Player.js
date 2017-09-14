@@ -204,6 +204,8 @@
         Laya.loader.load("res/particle/particle.part", Handler.create(this, this.Showparticle), null, Laya.Loader.JSON);
     }
     _proto.Showparticle = function(settings){
+        //播放无敌状态音乐
+        SoundManager.playSound("res/wav/Invincible_start.wav",1);
         this.sp = new Laya.Particle2D(settings);
         // console.log(this.sp);
         this.sp.x = this.body.x*1.5;
@@ -217,6 +219,8 @@
 
     //特效停止
     _proto.hideEffect = function(){
+        //播放特效停止音效
+        SoundManager.playSound("res/wav/Invincible_end.wav");
         // this.sp.destroy();
         this.sp.emitter.stop();
         this.sp.emitter.clear();

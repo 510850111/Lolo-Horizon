@@ -98,6 +98,8 @@
                     if(this.player.hitCheck(this.player.body.x,this.player.y,item.x + floor.x - PLAYER_WIDTH,item.y,item.directionStatus,item.type,this.player.status)){
                         //物品有多个类型 分类型进行判断
                         if(item.type == Item.ITEM_TYPE_DECELERATION){
+                            //播放减速道具音乐
+                            SoundManager.playSound("res/wav/DecelerationCounting.wav",1);
                             item.visible = false;
                             this.player.decelerationEnergy.addEnergyValue(20);
                             if(this.player.decelerationEnergy.value >= 100){
@@ -105,10 +107,14 @@
                                     //减速
                                     this.player.decelerationEnergy.updateEnergyValue(100);
                                     this.player.isInLowerSpeed  = true;
+                                    //播放减速效果音效
+                                    SoundManager.playSound("res/wav/DLowerSpeed.wav",1);
                                     floor.moveLower(this);    
                                 }
                             }
                         }else if(item.type == Item.ITEM_TYPE_INCINCIBLE){
+                            //播放无敌药水的声音
+                            SoundManager.playSound("res/wav/InvincibleCounting.wav",1);
                             item.visible = false;
                             this.player.invincibleEnergy.addEnergyValue(20);
                             if(this.player.invincibleEnergy.value == 100 && !this.player.isInEffect){
@@ -118,6 +124,8 @@
                             
                         }else{
                             this.scoreText.text ++ ;
+                            //播放星星的相关音乐
+                            SoundManager.playSound("res/wav/StarCounting.wav",1);
                             //星星物品播放动画
                             item.TweenStar(item);
                         }

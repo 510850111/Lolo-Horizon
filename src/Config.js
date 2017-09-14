@@ -17,17 +17,17 @@ var ENERGY_BAR_HEIGHT = 12;
 var ITEM_STAR_WIDTH = 32;
 var ITEM_STAR_HEIGHT = 32;
 //物品-星星出现几率
-var ITEM_STAR_PROBABILITY = 0.9;
+var ITEM_STAR_PROBABILITY = 0.8;
 //物品-减速道具大小
 var ITEM_DECELERATION_WIDTH = 40;
 var ITEM_DECELERATION_HEIGHT = 53;
 //物品-减速道具出现几率
-var ITEM_DECELERAYION_PROBABILITY = 0.25;
+var ITEM_DECELERAYION_PROBABILITY = 0.1;
 //物品-无敌道具大小
 var ITEM_INVINCIBLE_WIDTH = 40;
 var ITEM_INVINCIBLE_HEIGHT = 48;
 //物品-无敌道具出现几率
-var ITEM_INVINCIBLE_PROBABILITY = 0.2;
+var ITEM_INVINCIBLE_PROBABILITY = 0.08;
 
 //npc大小
 var NPC_BIRD_WIDTH = 96;
@@ -95,6 +95,8 @@ var SCORETEXT_ALIGN = "right";// "left"： 居左对齐显示。 "center"： 居
 //游戏相关状态
 var IS_PAUSE = false;
 var IS_OVER = false;
+
+var BG_MUSIC_VOLUME = 0.5;
 
 
 var Sprite = laya.display.Sprite;

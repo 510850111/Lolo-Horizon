@@ -29,7 +29,13 @@
         var texture2 = Laya.loader.getRes("res/BackGround.png");
         var textureTree = Laya.loader.getRes("res/tree0.png");
         var textureCat = Laya.loader.getRes("res/cat_sleep.png");
-
+        //播放背景音乐
+        //背景音乐同时只能播放一个，
+        //如果在播放背景音乐时再次调用本方法，
+        //会先停止之前的背景音乐，再播放当前的背景音乐。
+        //也就是说,这个方法只能用于背景音乐
+        Laya.SoundManager.musicVolume = BG_MUSIC_VOLUME;
+        Laya.SoundManager.playMusic("res/wav/BG.wav",0);
         //创建背景1
         this.bg1 = new Sprite();
         //绘制背景图1

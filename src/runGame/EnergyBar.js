@@ -21,6 +21,8 @@
         //当前值
         this.value = 0;
         EnergyBar.__super.call(this);
+        
+        this.SoundManager = laya.media.SoundManager;
         this.init(type);
     }
 
