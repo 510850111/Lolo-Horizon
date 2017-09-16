@@ -108,3 +108,10 @@ var SoundManager = laya.media.SoundManager;
 var Pool = laya.utils.Pool;
 var Text = laya.display.Text;
 var Tween = laya.utils.Tween;
+
+if( window.conch )
+{
+    //值为1：表示所有LOGE全部弹出alert
+    //值为2：表示所有LOGE和LOGW全部弹出alert
+    window.conch.config.setDebugLevel(2);
+}

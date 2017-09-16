@@ -226,8 +226,8 @@
         //播放特效停止音效
         SoundManager.playSound("res/wav/Invincible_end.wav");
         // this.sp.destroy();
-        this.sp.emitter.stop();
-        this.sp.emitter.clear();
+        this.sp.stop();
+        // this.sp.emitter.clear();
         IS_FLOOR_SPEED_MAX = false;
         FLOOR_SPEED = FLOOR_SPEED_DEFAULT;
         this.isInEffect = false;   

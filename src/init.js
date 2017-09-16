@@ -8,7 +8,7 @@ Laya.stage.scaleMode = "exactfit";
 //设置居中对齐
 Laya.stage.alignH = "center";
 //设置横屏
-Laya.stage.screenMode = "horizontal";
+Laya.stage.screenMode = "none";
 //设置分辨率
 Laya.stage.scaleMode = "showall";
 
