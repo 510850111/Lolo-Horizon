@@ -171,7 +171,7 @@
         //需要添加的数量
         var addNum = 0;
         //计算道具的最大数量
-        var maxBirdNum = Math.floor( FLOOR_WIDTH / 128);
+        var maxBirdNum = Math.floor( FLOOR_WIDTH / NPC_BIRD_INTANCE);
         //定制数量的规则
         if(maxBirdNum >= 5){
             addNum = 5 + Math.floor((maxBirdNum - 5) * Math.random());;

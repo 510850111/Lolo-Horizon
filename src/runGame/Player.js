@@ -131,6 +131,10 @@
             var itemHeight = 0;
             //根据传过来的道具类型来确定物品的大小
             switch(itemTpye){
+                case Npc.NPC_TYPE_BIRD:
+                    itemWidth = NPC_BIRD_WIDTH;
+                    itemHeight = NPC_BIRD_HEIGHT;
+                    break;
                 case Item.ITEM_TYPE_STAR:
                     itemWidth = ITEM_STAR_WIDTH;
                     itemHeight = ITEM_STAR_HEIGHT;

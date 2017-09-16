@@ -90,6 +90,7 @@
             }
             //检测是否碰到道具了
             var itemList = floor.getAllItems();
+            var npcList = floor.getAllNpcs();
             for(var j = 0;j < itemList.length;j++){
                 var item = itemList[j];
                 //只有显示的物品才做碰撞检测
@@ -108,7 +109,7 @@
                                     this.player.decelerationEnergy.updateEnergyValue(100);
                                     this.player.isInLowerSpeed  = true;
                                     //播放减速效果音效
-                                    SoundManager.playSound("res/wav/DLowerSpeed.wav",1);
+                                    SoundManager.playSound("res/wav/LowerSpeed.wav",1);
                                     floor.moveLower(this);    
                                 }
                             }
@@ -123,18 +124,44 @@
                                 this.player.showEffect();}
                             
                         }else{
-                            this.scoreText.text ++ ;
+                            this.scoreAdd(1);
                             //播放星星的相关音乐
                             SoundManager.playSound("res/wav/StarCounting.wav",1);
+                            item.visible = false;
                             //星星物品播放动画
-                            item.TweenStar(item);
+                            // item.TweenStar(item);
                         }
                         
                     }
                 }
             }
+            //npc碰撞检测
+            for(var k = 0;k < npcList.length;k++){
+                var npc = npcList[k];
+                //只有显示的npc才做碰撞检测
+                if(npc.visible){
+                    //拿到npc的位置信息
+                    if(this.player.hitCheck(this.player.body.x,this.player.y,npc.x + floor.x - PLAYER_WIDTH,npc.y,npc.directionStatus,npc.type,this.player.status)){
+                        //npc类型判断
+                        switch(npc.type){
+                            case Npc.NPC_TYPE_BIRD:
+                            if(this.player.isInEffect){break;}
+                                //停止游戏
+                                this.stopAllGame();
+                                var isRestartGame = true;
+                                initGame(isRestartGame);//位于init.js
+                        }
+                }
+                }
+
+            }
         }
         
+    }
+    //分数栏更新
+    _proto.scoreAdd = function(value){
+        this.scoreText.text = parseInt(this.scoreText.text) + value;
+        // console.log(this.scoreText.text + "   " + typeof(this.scoreText.text));
     }
     //鼠标按下事件
     _proto.onMouseDown = function () {
@@ -153,5 +180,24 @@
         // console.log("玩家状态:" + this.player.status + "  玩家Y轴位置:" + this.player.y);
         if (this.player.status == "up") { this.player.y = (BG_HEIGHT - FLOOR_HEIGHT) / 2 - PLAYER_HEIGHT + 30 }
         else if (this.player.status == "down") { this.player.y = ((BG_HEIGHT + FLOOR_HEIGHT) / 2) + PLAYER_HEIGHT - 15 }
+    }
+    //停止游戏
+    _proto.stopAllGame = function(){
+        //停止渲染游戏
+        Laya.stage.renderingEnabled=false;
+        //清除减速条数据
+        this.player.decelerationEnergy.updateEnergyValue(0);
+        //清除无敌条数据
+        this.player.invincibleEnergy.updateEnergyValue(0);
+        //清除分数数据
+        this.scoreText.text = SCORETEXT_TEXT_DEFAULT;
+        //清除奔跑速度数据
+        FLOOR_SPEED = FLOOR_SPEED_DEFAULT;
+        //停止播放所有声音
+        SoundManager.stopAll();
+        //设置人物状态
+        this.player.status = "down";
+        //停止循环
+        Laya.timer.clear(this,this.onLoop);
     }
 })();

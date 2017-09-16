@@ -1,6 +1,6 @@
 //定义背景的大小
-var BG_WIDTH = 852;
-var BG_HEIGHT = 450;
+var BG_WIDTH = 800;
+var BG_HEIGHT = 480;
 //地板大小
 var FLOOR_HEIGHT = 84;
 var FLOOR_WIDTH = 960;
@@ -34,6 +34,8 @@ var NPC_BIRD_WIDTH = 96;
 var NPC_BIRD_HEIGHT = 96;
 //NPC出现几率
 var NPC_BIRD_PROBABLITY = 0.1;
+//npc间隔
+var NPC_BIRD_INTANCE = 200;
 
 //无敌状态下能量条下降速度
 var ITEM_INVINCIBLE_DESCENT_SPEED = 0.20;

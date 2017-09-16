@@ -28,7 +28,7 @@
         var texture1 = Laya.loader.getRes("res/BackGround.png");
         var texture2 = Laya.loader.getRes("res/BackGround.png");
         var textureTree = Laya.loader.getRes("res/tree0.png");
-        var textureCat = Laya.loader.getRes("res/cat_sleep.png");
+        var textureCat = Laya.loader.getRes("res/m_background.png");
         //播放背景音乐
         //背景音乐同时只能播放一个，
         //如果在播放背景音乐时再次调用本方法，

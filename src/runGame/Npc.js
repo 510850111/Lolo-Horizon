@@ -15,6 +15,8 @@
     var _proto = Npc.prototype;
     Npc.cached = false;
     Npc.BIRD = "bird";
+    this.type = "";
+    Npc.NPC_TYPE_BIRD = "NPC_TYPE_BIRD";
 
     _proto.init = function(){
     
@@ -27,6 +29,7 @@
         if(this.body == null){
             this.body = new Animation();
             this.body.interval = NPC_BIRD_INTERVAL;
+            this.type = Npc.NPC_TYPE_BIRD;
             this.addChild(this.body);
             this.body.play(0, true, Npc.BIRD);
             //创建一个帧循环处理函数
@@ -37,7 +40,6 @@
     //帧循环函数
     _proto.onLoop = function(){
 		if(IS_OVER)return;
-		// this.body.x -= Config.speed * 1.5;
 		if(this.body.x < -100){
             this.removeSelf();
 			//回收

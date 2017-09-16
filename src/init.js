@@ -16,6 +16,8 @@ Laya.stage.scaleMode = "showall";
 var loading = new Loading();    
 Laya.stage.addChild(loading);
 
+this.runGame = null;
+
 //游戏介绍
 var gameInfo = new GameInfo();
 
@@ -63,12 +65,21 @@ function onLoading(progress) {
 //加载完成
 function onLoaded() {
     console.log("图片资源加载完毕\n");
+    //开始渲染游戏
+    Laya.stage.renderingEnabled=true;
     //加载完毕移除loading 显示游戏提示UI 并且初始化游戏
     Laya.stage.removeChild(loading);
     //实例化RunGame
     var runGame = new RunGame();
+    this.runGame = runGame;
     //把RunGame添加到舞台上
     Laya.stage.addChild(runGame);
     Laya.stage.addChild(gameInfo);
 
+}
+
+function initGame(isRestartGame){
+    gameInfo.init("游戏已结束!请重新开始游戏!");
+    Laya.stage.removeChildren(this.runGame);
+    onLoaded();
 }

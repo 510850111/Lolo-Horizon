@@ -7,14 +7,15 @@
 		this.bg = null;
 		this.txt = null;
 		GameInfo.__super.call(this);
-		this.init();
+		var message = null;
+		this.init(message);
 	}
 	//GameInfo
 	Laya.class(GameInfo,"GameInfo", laya.display.Sprite);
 	
 	var _proto = GameInfo.prototype;
 	
-	_proto.init = function(){
+	_proto.init = function(message){
 		this.width = BG_WIDTH;
 		this.height = BG_HEIGHT;
 
@@ -30,7 +31,11 @@
 		this.txt = new Text();
 		this.txt.color = "#ffffff";
 		this.txt.fontSize = 20;
-		this.txt.text = "游戏介绍\n\n点击可控制人物翻转\n\n左上角紫色条代表当前启动无敌状态 黄色条代表减速速状态\n\n\n好了 点击屏幕开始狂奔之旅吧~~";
+		if((message == "") || (message == null)){
+			this.txt.text = "游戏介绍\n\n点击可控制人物翻转\n\n左上角紫色条代表当前启动无敌状态 黄色条代表减速速状态\n\n\n好了 点击屏幕开始狂奔之旅吧~~";
+		}else{
+			this.txt.text = message;
+		}
 		this.txt.width = BG_WIDTH;
 		this.txt.align = "center";
 		this.txt.y = (BG_HEIGHT - this.txt.height) * 0.5;
